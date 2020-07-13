@@ -1,17 +1,6 @@
-# Ruby Enumarables Project
+# Tic Tac Toe Project with Ruby
 
-In this project, we implemented our own version of Ruby’s enumerable methods. Methods are:
-
-#my_each
-#my_each_with_index
-#my_select
-#my_all?
-#my_any?
-#my_none?
-#my_map
-#my_inject
-#my_count
-#my_multiply_els (to test inject)
+In this project, the student builds a Tic Tac Toe game. The main goal is to put into practice the main concepts of Object Oriented Programming. Particularly, classes and access to their attributes.
 
 ## Built With
 
