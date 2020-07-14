@@ -1,8 +1,8 @@
 # !/usr/bin/env ruby
-puts 'Hello world!'
+require './lib/app'
 
 def get_input(player)
-  puts "#{player}'s Turn"
+  puts "Player #{player.player_number}'s Turn (#{player.player_tag})"
   user_input = gets.chomp.to_i
   loop do
     return user_input if (user_input.is_a? Integer) && (user_input.positive? && user_input < 10)
@@ -12,27 +12,11 @@ def get_input(player)
   end
 end
 
-def player_tag_selection
-  choice = gets.chomp
-  p1, p2 = nil
-  loop do
-    if choice.downcase == 'x'
-      p1 = 'X'
-      p2 = 'O'
-      break
-    elsif choice.downcase == 'o'
-      p1 = 'O'
-      p2 = 'X'
-      break
-    else
-      puts 'Invalid Input. Enter X OR O'
-      choice = gets.chomp
-    end
-  end
-  [p1, p2]
-end
-
-def game
+def play
+  puts 'Gameplay: Player 1 is assigned to X and player 2 is assigned O.
+    To place your tag on the board, choose a number
+    between 1-9 as displayed in the board above. The first player who gets three(3) tags in vertically,
+    horizontally or diagonally lined up wins!'
   puts '-------------------------'
   puts '|   1   |   2   |   3   |'
   puts '-------------------------'
@@ -41,35 +25,38 @@ def game
   puts '|   7   |   8   |   9   |'
   puts '-------------------------'
 
-  puts 'Gameplay, Player 1 should choose his/her tag, player 2 gets assigned a tag automatically.
-  To place your tag on the board, choose a number
-  between 1-9 as displayed in the board above. The first player who gets three(3) tags in vertically,
-  horizontally or diagonally lined up wins!'
-
-  puts 'Player 1, Choose your Alphabet X OR O'
-  player1_tag, player2_tag = player_tag_selection
-
-  puts "Player 1: #{player1_tag}                   Player 2: #{player2_tag}"
-
   puts 'Enter Numbers Between 1 - 9'
 
-  current_player_input = nil
-  count = 0
-  game_won = false
-  until game_won
-    # Display Game Board
-    current_player_input = count.even? ? get_input(player1_tag) : get_input(player2_tag)
-    # Check if position is valid
-    # Update the Board
-    # Check if Player has won
-    count += 1
-    next unless count == 8 || game_won
+  game = Game.new
+  board = Board.new
+  current_player = nil
+  count = 1
+  current_player_input = get_input(game.player1)
+  until game.check_win?(board.board) || game.check_draw?(board.board)
 
-    puts 'Game ended in a Draw' if count == 8
-    puts 'Player2 Won!!!' if game_won
-    break
+    until board.valid_position?(current_player_input)
+      current_player_input = count.odd? ? get_input(game.player1) : get_input(game.player2)
+      puts 'That spot is taken by the other player. Please choose another spot on the board' unless board.valid_position?(current_player_input)
+    end
+    current_player = count.odd? ? game.player1 : game.player2
+    board.update_board(current_player_input, current_player)
+    puts board.display_board
+    count += 1
   end
-  current_player_input
+
+  if game.check_win?(board.board)
+    puts "Player #{current_player.player_number} (#{current_player.player_tag}) WON!!!"
+
+    puts 'Do you want a re-match? Y for YES'
+    replay = gets.chomp
+    board.reset_board
+    play if replay == 'y'
+  elsif game.check_draw?(board.board)
+    puts 'DRAW GAME. TRY AGAIN?!! Y for YES'
+    replay = gets.chomp
+    board.reset_board
+    play if replay == 'y'
+  end
 end
 
-game
+play
