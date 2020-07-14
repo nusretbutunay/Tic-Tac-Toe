@@ -1,17 +1,3 @@
-#  Initialize players with tags
-#  Display Board
-#  Player1 should choose spot on board
-#  Update Board with input
-#  Check for win or tie
-#  Display Board
-#  Player2 should choose spot on board
-
-# PLAYER
-#  Initialize players with tags
-
-#     1,2,3 >  X O
-#     4,5,6 > X O
-
 class Game
   attr_reader :player1, :player2
   def initialize
