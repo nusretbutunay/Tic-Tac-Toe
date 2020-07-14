@@ -63,10 +63,11 @@ def game
     # Update the Board
     # Check if Player has won
     count += 1
-    if count == 8
-      puts 'Game ended in a Draw'
-      break
-    end
+    next unless count == 8 || game_won
+
+    puts 'Game ended in a Draw' if count == 8
+    puts 'Player2 Won!!!' if game_won
+    break
   end
   current_player_input
 end
