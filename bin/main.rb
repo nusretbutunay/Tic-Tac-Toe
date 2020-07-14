@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+# !/usr/bin/env ruby
 puts 'Hello world!'
 
 def get_input(player)
@@ -10,6 +10,26 @@ def get_input(player)
     puts 'Invalid Input. Enter A Number between 1 - 9'
     user_input = gets.chomp.to_i
   end
+end
+
+def player_tag_selection
+  choice = gets.chomp
+  p1, p2 = nil
+  loop do
+    if choice.downcase == 'x'
+      p1 = 'X'
+      p2 = 'O'
+      break
+    elsif choice.downcase == 'o'
+      p1 = 'O'
+      p2 = 'X'
+      break
+    else
+      puts 'Invalid Input. Enter X OR O'
+      choice = gets.chomp
+    end
+  end
+  [p1, p2]
 end
 
 def game
@@ -33,7 +53,7 @@ def game
 
   puts 'Enter Numbers Between 1 - 9'
 
-  current_player_input
+  current_player_input = nil
   count = 0
   while count < 9
     # Display Game Board
