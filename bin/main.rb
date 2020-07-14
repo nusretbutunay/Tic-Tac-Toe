@@ -64,7 +64,7 @@ def game
     # Check if Player has won
     count += 1
     if count == 8
-      puts 'DRAW GAME!!!.'
+      puts 'Game ended in a Draw'
       break
     end
   end
