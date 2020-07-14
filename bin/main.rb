@@ -1,14 +1,10 @@
-# !/usr/bin/env ruby
-require "./lib/app"
+#!/usr/bin/env ruby
+require './lib/app'
 
-
-puts 
-puts $player2.player_info
-
-game = Game.new()
+game = Game.new
 
 def get_input(player)
-  puts "#{player}'s Turn"
+  puts "Player #{player}'s Turn"
   user_input = gets.chomp.to_i
   loop do
     return user_input if (user_input.is_a? Integer) && (user_input.positive? && user_input < 10)
@@ -17,40 +13,34 @@ def get_input(player)
     user_input = gets.chomp.to_i
   end
 end
+puts '-------------------------'
+puts '|   1   |   2   |   3   |'
+puts '-------------------------'
+puts '|   4   |   5   |   6   |'
+puts '-------------------------'
+puts '|   7   |   8   |   9   |'
+puts '-------------------------'
 
-
-def play
-  puts '-------------------------'
-  puts '|   1   |   2   |   3   |'
-  puts '-------------------------'
-  puts '|   4   |   5   |   6   |'
-  puts '-------------------------'
-  puts '|   7   |   8   |   9   |'
-  puts '-------------------------'
-
-  puts 'Gameplay, Player 1 should choose his/her tag, player 2 gets assigned a tag automatically.
+puts 'Gameplay, Player 1 should choose his/her tag, player 2 gets assigned a tag automatically.
   To place your tag on the board, choose a number
   between 1-9 as displayed in the board above. The first player who gets three(3) tags in vertically,
   horizontally or diagonally lined up wins!'
 
-  puts 'Enter Numbers Between 1 - 9'
-  board = Board.new()
-  current_player_input = get_input(game.make_move())
-  count = 1
-  while count < 9
-    board.display_board
-    until board.valid_position?(current_player_input)
-      current_player_input = count.odd? ? get_input(player1_tag) : get_input(player2_tag)
-    end
-    game.make_move(current_player_input)
-      
-    # Update the Board
-    # Check if Player has won
-    count += 1
+puts 'Enter Numbers Between 1 - 9'
+board = Board.new
+current_player_input = get_input(game.player1.player_number)
+count = 1
+while count < 9
+  board.display_board
+  until board.valid_position?(current_player_input)
+    current_player_input = count.odd? ? get_input(game.player1.player_number) : get_input(game.player2.player_number)
   end
-  current_player_input
+  current_player = count.odd? ? game.player1 : game.player2
+  # game.make_move(current_player_input)
+
+  # Update the Board
+  board.update_board(current_player_input, current_player)
+  # Check if Player has won
+  count += 1
 end
-
-play
-
-
+current_player_input
