@@ -1,5 +1,11 @@
 # !/usr/bin/env ruby
-puts 'Hello world!'
+require "./lib/app"
+
+
+puts 
+puts $player2.player_info
+
+game = Game.new()
 
 def get_input(player)
   puts "#{player}'s Turn"
@@ -12,27 +18,8 @@ def get_input(player)
   end
 end
 
-def player_tag_selection
-  choice = gets.chomp
-  p1, p2 = nil
-  loop do
-    if choice.downcase == 'x'
-      p1 = 'X'
-      p2 = 'O'
-      break
-    elsif choice.downcase == 'o'
-      p1 = 'O'
-      p2 = 'X'
-      break
-    else
-      puts 'Invalid Input. Enter X OR O'
-      choice = gets.chomp
-    end
-  end
-  [p1, p2]
-end
 
-def game
+def play
   puts '-------------------------'
   puts '|   1   |   2   |   3   |'
   puts '-------------------------'
@@ -46,19 +33,17 @@ def game
   between 1-9 as displayed in the board above. The first player who gets three(3) tags in vertically,
   horizontally or diagonally lined up wins!'
 
-  puts 'Player 1, Choose your Alphabet X OR O'
-  player1_tag, player2_tag = player_tag_selection
-
-  puts "Player 1: #{player1_tag}                   Player 2: #{player2_tag}"
-
   puts 'Enter Numbers Between 1 - 9'
-
-  current_player_input = nil
-  count = 0
+  board = Board.new()
+  current_player_input = get_input(game.make_move())
+  count = 1
   while count < 9
-    # Display Game Board
-    current_player_input = count.even? ? get_input(player1_tag) : get_input(player2_tag)
-    # Check if position is valid
+    board.display_board
+    until board.valid_position?(current_player_input)
+      current_player_input = count.odd? ? get_input(player1_tag) : get_input(player2_tag)
+    end
+    game.make_move(current_player_input)
+      
     # Update the Board
     # Check if Player has won
     count += 1
@@ -66,4 +51,6 @@ def game
   current_player_input
 end
 
-game
+play
+
+
