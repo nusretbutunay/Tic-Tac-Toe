@@ -9,6 +9,9 @@
 # PLAYER
 #  Initialize players with tags
 
+#     1,2,3 >  X O
+#     4,5,6 > X O
+
 class Game
   attr_reader :player1, :player2
   def initialize
@@ -17,14 +20,35 @@ class Game
     @board = Board.new
   end
 
-  def make_move(current_player)
-    Board.update_board(current_player.player_tag)
+  def make_move(current_player); end
+
+  def check_win?(board)
+    new_array = []
+    new_array.push(board[0], board[3], board[6])
+    return true if new_array.all?('X')
+
+    new_array = []
+    new_array.push(board[1], board[4], board[7])
+    return true if new_array.all?('X')
+
+    new_array = []
+    new_array.push(board[2], board[5], board[8])
+    return true if new_array.all?('X')
+
+    new_array = []
+    new_array.push(board[0], board[4], board[8])
+    return true if new_array.all?('X')
+
+    new_array = []
+    new_array.push(board[2], board[4], board[6])
+    return true if new_array.all?('X')
+    return true if board[0..2].all?('X') || board[3..5].all?('X') || board[6..8].all?('X')
+
+    false
   end
 
-  def check_win?; end
-
-  def check_draw?
-    true unless check_win? || @board.board.none?(Integer)
+  def check_draw?(board)
+    false unless check_win?(board) || @board.board.none?(Integer)
   end
 end
 
@@ -61,5 +85,7 @@ class Board
     @board[position - 1] = player.player_tag
   end
 
-  def reset_board; end
+  def reset_board
+    @board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  end
 end
