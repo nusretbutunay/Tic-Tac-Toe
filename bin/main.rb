@@ -55,13 +55,18 @@ def game
 
   current_player_input = nil
   count = 0
-  while count < 9
+  game_won = false
+  until game_won
     # Display Game Board
     current_player_input = count.even? ? get_input(player1_tag) : get_input(player2_tag)
     # Check if position is valid
     # Update the Board
     # Check if Player has won
     count += 1
+    if count == 8
+      puts 'DRAW GAME!!!.'
+      break
+    end
   end
   current_player_input
 end
