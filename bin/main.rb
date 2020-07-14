@@ -13,7 +13,7 @@ def get_input(player)
 end
 
 def play
-  puts 'Gameplay, Player 1 should choose his/her tag, player 2 gets assigned a tag automatically.
+  puts 'Gameplay: Player 1 is assigned to X and player 2 is assigned O.
     To place your tag on the board, choose a number
     between 1-9 as displayed in the board above. The first player who gets three(3) tags in vertically,
     horizontally or diagonally lined up wins!'
@@ -34,7 +34,10 @@ def play
   current_player_input = get_input(game.player1)
   until game.check_win?(board.board) || game.check_draw?(board.board)
 
-    current_player_input = count.odd? ? get_input(game.player1) : get_input(game.player2) until board.valid_position?(current_player_input)
+    until board.valid_position?(current_player_input)
+      current_player_input = count.odd? ? get_input(game.player1) : get_input(game.player2)
+      puts 'That spot is taken by the other player. Please choose another spot on the board' unless board.valid_position?(current_player_input)
+    end
     current_player = count.odd? ? game.player1 : game.player2
     board.update_board(current_player_input, current_player)
     puts board.display_board
