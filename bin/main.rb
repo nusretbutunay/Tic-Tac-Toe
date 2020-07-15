@@ -13,9 +13,11 @@ def get_input(player)
 end
 
 def play
-  puts 'Gameplay: Player 1 is assigned to X and player 2 is assigned O.
+  puts 'Gameplay:
+    Player 1 is assigned to X and player 2 is assigned O.
     To place your tag on the board, choose a number
-    between 1-9 as displayed in the board above. The first player who gets three(3) tags in vertically,
+    between 1-9 as displayed in the board above.
+    The first player who gets three(3) tags in vertically,
     horizontally or diagonally lined up wins!'
   puts '-------------------------'
   puts '|   1   |   2   |   3   |'
